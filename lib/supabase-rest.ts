@@ -1,7 +1,8 @@
 import "server-only";
 
 const configuredSupabaseUrl = process.env.SUPABASE_URL;
-const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+const serviceRoleKey =
+  process.env.SUPABASE_SECRET_KEY || process.env.SUPABASE_SERVICE_ROLE_KEY;
 
 function getValidatedSupabaseUrl() {
   if (!configuredSupabaseUrl) return null;

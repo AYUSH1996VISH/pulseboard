@@ -17,7 +17,7 @@
 
 1. Run `npm run security:audit`, `npm run lint`, and `npm run build` before release.
 2. Store production secrets only in Vercel Environment Variables.
-3. Rotate the Supabase service role key immediately if it is ever logged, committed, or shared.
+3. Rotate the Supabase secret/service-role key immediately if it is ever logged, committed, or shared.
 4. Add distributed rate limiting and CAPTCHA before a high-traffic public launch. The built-in memory limiter is defense-in-depth for a small deployment, not a global distributed quota.
 5. Review database access logs and failed API responses regularly.
 6. Require code review for CSP, API routes, dependencies, and analytics changes.

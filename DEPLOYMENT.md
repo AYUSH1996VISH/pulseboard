@@ -32,7 +32,7 @@ Push this directory to a GitHub, GitLab, or Bitbucket repository. If `pulseboard
 
 ```text
 SUPABASE_URL=https://YOUR_PROJECT.supabase.co
-SUPABASE_SERVICE_ROLE_KEY=YOUR_SERVICE_ROLE_KEY
+SUPABASE_SECRET_KEY=YOUR_SERVER_SECRET_KEY
 ```
 
 5. Select **Deploy**.
@@ -55,7 +55,7 @@ After deployment, test this flow in a private browser window:
 
 ## Security checklist
 
-- Keep `SUPABASE_SERVICE_ROLE_KEY` server-only.
+- Keep `SUPABASE_SECRET_KEY` server-only. The legacy `SUPABASE_SERVICE_ROLE_KEY` name is also supported.
 - Do not prefix the service key with `NEXT_PUBLIC_`.
 - Keep Row Level Security enabled; the supplied schema exposes no direct anonymous table policies.
 - Add CAPTCHA and rate limiting before using public forms at significant scale.
