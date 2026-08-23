@@ -2,8 +2,8 @@
 
 ## Implemented controls
 
-- No third-party runtime scripts in the default application.
-- Restrictive Content Security Policy and browser security headers.
+- Google Analytics is the only approved third-party runtime script and loads only after explicit visitor consent.
+- Restrictive Content Security Policy allowlists only the non-advertising Google Analytics endpoints.
 - Clickjacking, MIME sniffing, unnecessary browser permissions, and cross-origin framing are blocked.
 - Production browser source maps and the framework identification header are disabled.
 - Secrets remain inside a `server-only` data access module.
@@ -21,7 +21,7 @@
 4. Add distributed rate limiting and CAPTCHA before a high-traffic public launch. The built-in memory limiter is defense-in-depth for a small deployment, not a global distributed quota.
 5. Review database access logs and failed API responses regularly.
 6. Require code review for CSP, API routes, dependencies, and analytics changes.
-7. Do not enable tag managers until security, consent, and privacy review is complete.
+7. Review any new analytics vendor, advertising feature, or CSP domain before enabling it.
 
 ## Reporting a vulnerability
 

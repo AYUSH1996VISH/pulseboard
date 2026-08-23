@@ -33,11 +33,12 @@ Push this directory to a GitHub, GitLab, or Bitbucket repository. If `pulseboard
 ```text
 SUPABASE_URL=https://YOUR_PROJECT.supabase.co
 SUPABASE_SECRET_KEY=YOUR_SERVER_SECRET_KEY
+NEXT_PUBLIC_GA_MEASUREMENT_ID=G-E495LVXW2H
 ```
 
 5. Select **Deploy**.
 
-Third-party tag loading is intentionally disabled in the secure baseline. Follow `ANALYTICS_SETUP.md` and complete your company security/privacy review before adding a tag manager.
+GA4 is consent-gated and uses `G-E495LVXW2H` as a validated fallback. The public environment variable is optional but recommended for explicit deployment configuration.
 
 ## 4. Verify production
 

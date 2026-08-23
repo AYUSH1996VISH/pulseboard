@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { AnalyticsProvider } from "@/components/analytics-provider";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import "./globals.css";
@@ -13,6 +14,11 @@ const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
 });
+
+const configuredGaId = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID || "G-E495LVXW2H";
+const gaId = /^G-[A-Z0-9]+$/.test(configuredGaId)
+  ? configuredGaId
+  : "G-E495LVXW2H";
 
 export const metadata: Metadata = {
   title: "PulseBoard | Product Feedback Platform",
@@ -36,6 +42,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <SiteHeader />
         {children}
         <SiteFooter />
+        <AnalyticsProvider gaId={gaId} />
       </body>
     </html>
   );

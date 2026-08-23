@@ -44,7 +44,7 @@ See [DEPLOYMENT.md](./DEPLOYMENT.md) for the complete Vercel setup.
 
 ## GTM and GA4
 
-The app includes typed, PII-free data layer events but intentionally does not load third-party tag scripts in the secure baseline. See [ANALYTICS_SETUP.md](./ANALYTICS_SETUP.md) for the security approval gate and the eventual GTM/GA4 reporting workflow.
+The app includes consent-gated GA4 measurement using the official Next.js Google integration. Typed custom events exclude email addresses, feedback text, and voting identifiers. See [ANALYTICS_SETUP.md](./ANALYTICS_SETUP.md) for verification, custom dimensions, and reporting.
 
 ## Security
 

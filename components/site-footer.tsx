@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { AnalyticsPreferencesButton } from "@/components/analytics-provider";
 import { Logo } from "@/components/logo";
 
 const columns = [
@@ -32,7 +33,11 @@ export function SiteFooter() {
       <div className="border-t border-slate-100">
         <div className="mx-auto flex max-w-7xl flex-col gap-2 px-5 py-5 text-xs text-slate-400 sm:flex-row sm:items-center sm:justify-between lg:px-8">
           <p>© {new Date().getFullYear()} PulseBoard. Portfolio product experience.</p>
-          <p>Built with Next.js · Ready for Vercel · GTM enabled</p>
+          <div className="flex items-center gap-4">
+            <Link href="/privacy" className="transition hover:text-slate-600">Privacy</Link>
+            <AnalyticsPreferencesButton />
+            <p>Built with Next.js · Ready for Vercel · GA4 enabled</p>
+          </div>
         </div>
       </div>
     </footer>
