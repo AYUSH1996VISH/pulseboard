@@ -1,17 +1,13 @@
 "use client";
 
-import { GoogleAnalytics } from "@next/third-parties/google";
+import { GoogleTagManager } from "@next/third-parties/google";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { ANALYTICS_CONSENT_KEY, ANALYTICS_PREFERENCES_EVENT } from "@/lib/analytics-consent";
 
 type ConsentState = "loading" | "unknown" | "granted" | "denied";
 
-function setGoogleAnalyticsDisabled(gaId: string, disabled: boolean) {
-  (window as unknown as Record<string, boolean>)[`ga-disable-${gaId}`] = disabled;
-}
-
-export function AnalyticsProvider({ gaId }: { gaId: string }) {
+export function AnalyticsProvider({ gtmId }: { gtmId: string }) {
   const [consent, setConsent] = useState<ConsentState>("loading");
 
   useEffect(() => {
@@ -20,31 +16,35 @@ export function AnalyticsProvider({ gaId }: { gaId: string }) {
       ? savedConsent
       : "unknown";
 
-    setGoogleAnalyticsDisabled(gaId, initialConsent !== "granted");
     // Synchronizing consent from browser storage requires this one-time state update.
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setConsent(initialConsent);
 
     function reopenPreferences() {
-      setGoogleAnalyticsDisabled(gaId, true);
       setConsent("unknown");
     }
 
     window.addEventListener(ANALYTICS_PREFERENCES_EVENT, reopenPreferences);
     return () => window.removeEventListener(ANALYTICS_PREFERENCES_EVENT, reopenPreferences);
-  }, [gaId]);
+  }, []);
 
   function updateConsent(nextConsent: "granted" | "denied") {
     window.localStorage.setItem(ANALYTICS_CONSENT_KEY, nextConsent);
-    // Discard interactions queued before the visitor made a choice.
     window.dataLayer = [];
-    setGoogleAnalyticsDisabled(gaId, nextConsent !== "granted");
+
+    if (nextConsent === "denied") {
+      // A reload guarantees that a previously loaded GTM container is removed
+      // when a visitor withdraws analytics consent.
+      window.location.reload();
+      return;
+    }
+
     setConsent(nextConsent);
   }
 
   return (
     <>
-      {consent === "granted" && <GoogleAnalytics gaId={gaId} />}
+      {consent === "granted" && <GoogleTagManager gtmId={gtmId} />}
       {consent === "unknown" && (
         <section
           className="fixed inset-x-4 bottom-4 z-[100] mx-auto max-w-2xl rounded-2xl border border-slate-200 bg-white p-4 shadow-2xl shadow-slate-900/20 sm:flex sm:items-center sm:gap-5 sm:p-5"

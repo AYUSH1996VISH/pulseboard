@@ -33,12 +33,12 @@ Push this directory to a GitHub, GitLab, or Bitbucket repository. If `pulseboard
 ```text
 SUPABASE_URL=https://YOUR_PROJECT.supabase.co
 SUPABASE_SECRET_KEY=YOUR_SERVER_SECRET_KEY
-NEXT_PUBLIC_GA_MEASUREMENT_ID=G-E495LVXW2H
+NEXT_PUBLIC_GTM_ID=GTM-WHTKJV76
 ```
 
 5. Select **Deploy**.
 
-GA4 is consent-gated and uses `G-E495LVXW2H` as a validated fallback. The public environment variable is optional but recommended for explicit deployment configuration.
+GTM is consent-gated and uses `GTM-WHTKJV76` as a validated fallback. The public environment variable is optional but recommended for explicit deployment configuration. Configure the GA4 destination `G-E495LVXW2H` inside GTM; do not add a second GA4 loader to the application.
 
 ## 4. Verify production
 

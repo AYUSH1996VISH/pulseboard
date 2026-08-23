@@ -2,8 +2,8 @@
 
 ## Implemented controls
 
-- Google Analytics is the only approved third-party runtime script and loads only after explicit visitor consent.
-- Restrictive Content Security Policy allowlists only the non-advertising Google Analytics endpoints.
+- Google Tag Manager is the approved analytics loader and loads only after explicit visitor consent.
+- Restrictive Content Security Policy allowlists GTM, Tag Assistant preview resources, and non-advertising Google Analytics endpoints.
 - Clickjacking, MIME sniffing, unnecessary browser permissions, and cross-origin framing are blocked.
 - Production browser source maps and the framework identification header are disabled.
 - Secrets remain inside a `server-only` data access module.
@@ -22,6 +22,7 @@
 5. Review database access logs and failed API responses regularly.
 6. Require code review for CSP, API routes, dependencies, and analytics changes.
 7. Review any new analytics vendor, advertising feature, or CSP domain before enabling it.
+8. Restrict GTM publishing access, require two-factor authentication, and do not publish Custom HTML or unreviewed third-party tags.
 
 ## Reporting a vulnerability
 

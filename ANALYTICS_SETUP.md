@@ -1,51 +1,80 @@
-# GA4 setup for PulseBoard
+# GTM and GA4 setup for PulseBoard
 
-PulseBoard uses the official Next.js `@next/third-parties/google` integration with GA4 Measurement ID `G-E495LVXW2H`.
+PulseBoard loads Google Tag Manager container `GTM-WHTKJV76` through the official Next.js `@next/third-parties/google` integration. GTM must be the only GA4 loader. Do not paste a separate `gtag.js` snippet into the application or configure a second GA4 plugin.
 
 ## Privacy and security behavior
 
-- Google Analytics does not load until a visitor selects **Allow analytics**.
-- Declining prevents the Google script from loading.
+- GTM does not load until a visitor selects **Allow analytics**.
+- Declining or withdrawing consent reloads the page without GTM.
 - Visitors can reopen **Privacy choices** from the footer.
-- The Content Security Policy allows only the non-advertising Google Analytics endpoints.
-- Email addresses, request descriptions, and local voting identifiers are never sent to GA4.
-- Google Ads and advertising-signal domains are not allowlisted.
+- Events before consent are not stored or transmitted.
+- Email addresses, request descriptions, and local voting identifiers are never placed in the data layer.
+- The Content Security Policy allows GTM, Tag Assistant preview resources, and non-advertising GA4 endpoints.
+- The GTM `noscript` iframe is intentionally omitted because it cannot obtain consent when JavaScript is disabled.
 
-The ID can be overridden in Vercel with:
+The container ID can be overridden in Vercel:
 
 ```text
-NEXT_PUBLIC_GA_MEASUREMENT_ID=G-E495LVXW2H
+NEXT_PUBLIC_GTM_ID=GTM-WHTKJV76
 ```
 
-The committed ID is also used as a validated production fallback, so the environment variable is optional.
+The committed ID is also a validated fallback, so the environment variable is optional.
 
-## Event measurement plan
+## 1. Create the Google tag in GTM
 
-| Event | Triggered when | GA4 parameters |
-| --- | --- | --- |
-| `page_view` | Initial load and Next.js route navigation | Automatically collected |
-| `feature_upvote` | A visitor votes for an idea | `feature_id`, `feature_name` |
-| `feature_request_submit` | A valid request is accepted | `product_id`, `category` |
-| `generate_lead` | A newsletter subscription is accepted | `lead_source` |
-| `product_view` | A product detail page is viewed | `product_id`, `product_name` |
-| `cta_click` | A primary homepage CTA is selected | `cta_name`, `cta_location` |
+In **GTM -> Workspace -> Tags -> New**:
 
-## Verify the deployment
+- Name: `Google Tag - GA4`
+- Tag type: `Google tag`
+- Tag ID: `G-E495LVXW2H`
+- Trigger: `Initialization - All Pages`
 
-1. Wait for the Vercel deployment created by the GitHub push to become **Ready**.
-2. Open the production site in a private browser window.
-3. Open browser Developer Tools → Network.
-4. Before making a choice, confirm there is no request to `googletagmanager.com`.
-5. Select **Allow analytics**.
-6. Confirm `gtag/js?id=G-E495LVXW2H` loads and requests are sent to a `google-analytics.com` collection endpoint.
-7. In GA4, open **Reports → Realtime** and confirm the active user and page view.
-8. Vote, submit feedback, subscribe, open a product, and click homepage CTAs to test the custom events.
+Keep GA4 Enhanced Measurement enabled for automatic page views, browser-history changes, scrolls, outbound clicks, form interactions, and file downloads. Do not also create a History Change page-view tag.
 
-Google notes that standard reports can take 24–48 hours. Realtime is the fastest initial verification method.
+## 2. Create data-layer variables
 
-## Create GA4 custom dimensions
+Create Version 2 Data Layer Variables:
 
-In **GA4 → Admin → Data display → Custom definitions**, create event-scoped custom dimensions:
+| GTM variable | Data Layer Variable Name |
+| --- | --- |
+| `DLV - Feature ID` | `feature_data.feature_id` |
+| `DLV - Feature Name` | `feature_data.feature_name` |
+| `DLV - Product ID` | `product_id` |
+| `DLV - Product Name` | `product_name` |
+| `DLV - Category` | `category` |
+| `DLV - Lead Source` | `lead_source` |
+| `DLV - CTA Name` | `cta_name` |
+| `DLV - CTA Location` | `cta_location` |
+| `DLV - Filter Name` | `filter_name` |
+
+## 3. Create custom-event triggers and GA4 event tags
+
+Create one Custom Event trigger and one `Google Analytics: GA4 Event` tag for each row. Use measurement ID `G-E495LVXW2H`.
+
+| Event and trigger name | Parameters sent by the GA4 Event tag |
+| --- | --- |
+| `feature_upvote` | `feature_id`: `{{DLV - Feature ID}}`, `feature_name`: `{{DLV - Feature Name}}` |
+| `feature_request_submit` | `product_id`: `{{DLV - Product ID}}`, `category`: `{{DLV - Category}}` |
+| `generate_lead` | `lead_source`: `{{DLV - Lead Source}}` |
+| `product_view` | `product_id`: `{{DLV - Product ID}}`, `product_name`: `{{DLV - Product Name}}` |
+| `cta_click` | `cta_name`: `{{DLV - CTA Name}}`, `cta_location`: `{{DLV - CTA Location}}` |
+| `roadmap_filter` | `filter_name`: `{{DLV - Filter Name}}` |
+
+Each trigger uses its exact event name and fires on **All Custom Events**. Each GA4 Event tag uses the same event name and its matching trigger.
+
+## 4. Preview, verify, and publish
+
+1. In GTM, click **Preview** and connect `https://pulseboard-tawny.vercel.app/`.
+2. Before consent, confirm `gtm.js` is not requested.
+3. Select **Allow analytics** and confirm container `GTM-WHTKJV76` connects.
+4. Test a vote, subscription, request submission, product view, roadmap filter, and homepage CTA.
+5. Confirm each event appears once in Tag Assistant and GA4 DebugView/Realtime.
+6. Confirm no event parameter contains an email address or feedback text.
+7. In GTM, select **Submit -> Publish and Create Version**.
+
+## 5. Create GA4 custom dimensions
+
+In **GA4 -> Admin -> Data display -> Custom definitions**, create event-scoped custom dimensions:
 
 | Dimension name | Event parameter |
 | --- | --- |
@@ -57,9 +86,10 @@ In **GA4 → Admin → Data display → Custom definitions**, create event-scope
 | Lead source | `lead_source` |
 | CTA name | `cta_name` |
 | CTA location | `cta_location` |
+| Roadmap filter | `filter_name` |
 
-Mark `generate_lead` and `feature_request_submit` as key events if those are important portfolio outcomes.
+Mark `generate_lead` and `feature_request_submit` as key events. Standard custom-dimension reports can take 24-48 hours; use Realtime and DebugView for initial validation.
 
-## Suggested exploration
+## Recommended exploration
 
-Create a GA4 Free Form exploration using Feature name as rows, Event count and Total users as values, and an Event name filter equal to `feature_upvote`. A second exploration using Product name × Feedback category shows demand by product area.
+Create a GA4 Free Form exploration using Feature name as rows, Event count and Total users as values, filtered to `feature_upvote`. Create a funnel exploration for `page_view` -> `cta_click` -> `feature_upvote` -> `feature_request_submit`.

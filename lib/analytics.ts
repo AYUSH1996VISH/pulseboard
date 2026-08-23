@@ -1,6 +1,5 @@
 "use client";
 
-import { sendGAEvent } from "@next/third-parties/google";
 import { ANALYTICS_CONSENT_KEY } from "@/lib/analytics-consent";
 
 export type AnalyticsEvent =
@@ -38,24 +37,8 @@ export type AnalyticsEvent =
 
 export function trackEvent(payload: AnalyticsEvent) {
   if (typeof window === "undefined") return;
-  window.dataLayer = window.dataLayer || [];
-  window.dataLayer.push(payload);
-
   if (window.localStorage.getItem(ANALYTICS_CONSENT_KEY) !== "granted") return;
 
-  const { event } = payload;
-  let parameters: Record<string, string> = {};
-
-  if (payload.event === "feature_upvote") {
-    parameters = {
-      feature_id: payload.feature_data.feature_id,
-      feature_name: payload.feature_data.feature_name,
-    };
-  } else {
-    const { event: _event, ...eventParameters } = payload;
-    void _event;
-    parameters = eventParameters;
-  }
-
-  sendGAEvent("event", event, parameters);
+  window.dataLayer = window.dataLayer || [];
+  window.dataLayer.push(payload);
 }

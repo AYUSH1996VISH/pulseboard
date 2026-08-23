@@ -15,11 +15,11 @@ export default function PrivacyPage() {
           <div className="mt-8 grid gap-7 text-sm leading-7 text-slate-600">
             <section>
               <h2 className="text-lg font-semibold text-slate-950">Analytics</h2>
-              <p className="mt-2">Google Analytics 4 loads only after you select “Allow analytics.” It may collect page URLs, device and browser information, approximate location derived by Google, and interactions such as feature votes or product views. PulseBoard does not intentionally send email addresses, request descriptions, or account identifiers as custom analytics parameters.</p>
+              <p className="mt-2">Google Tag Manager and Google Analytics 4 load only after you select “Allow analytics.” They may collect page URLs, device and browser information, approximate location derived by Google, and interactions such as feature votes or product views. PulseBoard does not intentionally send email addresses, request descriptions, or account identifiers as custom analytics parameters.</p>
             </section>
             <section>
               <h2 className="text-lg font-semibold text-slate-950">Your choice</h2>
-              <p className="mt-2">Your analytics preference is stored in your browser under <code className="rounded bg-slate-100 px-1.5 py-0.5 text-xs text-slate-800">pulseboard_analytics_consent</code>. You can reopen Privacy choices from the footer at any time. Declining prevents the Google Analytics script from loading.</p>
+              <p className="mt-2">Your analytics preference is stored in your browser under <code className="rounded bg-slate-100 px-1.5 py-0.5 text-xs text-slate-800">pulseboard_analytics_consent</code>. You can reopen Privacy choices from the footer at any time. Declining prevents the GTM container and Google Analytics from loading.</p>
             </section>
             <section>
               <h2 className="text-lg font-semibold text-slate-950">Feedback and subscriptions</h2>

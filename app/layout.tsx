@@ -15,10 +15,10 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-const configuredGaId = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID || "G-E495LVXW2H";
-const gaId = /^G-[A-Z0-9]+$/.test(configuredGaId)
-  ? configuredGaId
-  : "G-E495LVXW2H";
+const configuredGtmId = process.env.NEXT_PUBLIC_GTM_ID || "GTM-WHTKJV76";
+const gtmId = /^GTM-[A-Z0-9]+$/.test(configuredGtmId)
+  ? configuredGtmId
+  : "GTM-WHTKJV76";
 
 export const metadata: Metadata = {
   title: "PulseBoard | Product Feedback Platform",
@@ -42,7 +42,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <SiteHeader />
         {children}
         <SiteFooter />
-        <AnalyticsProvider gaId={gaId} />
+        <AnalyticsProvider gtmId={gtmId} />
       </body>
     </html>
   );

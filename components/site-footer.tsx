@@ -36,7 +36,7 @@ export function SiteFooter() {
           <div className="flex items-center gap-4">
             <Link href="/privacy" className="transition hover:text-slate-600">Privacy</Link>
             <AnalyticsPreferencesButton />
-            <p>Built with Next.js · Ready for Vercel · GA4 enabled</p>
+            <p>Built with Next.js · Ready for Vercel · GTM + GA4 enabled</p>
           </div>
         </div>
       </div>

@@ -44,7 +44,7 @@ See [DEPLOYMENT.md](./DEPLOYMENT.md) for the complete Vercel setup.
 
 ## GTM and GA4
 
-The app includes consent-gated GA4 measurement using the official Next.js Google integration. Typed custom events exclude email addresses, feedback text, and voting identifiers. See [ANALYTICS_SETUP.md](./ANALYTICS_SETUP.md) for verification, custom dimensions, and reporting.
+The app includes consent-gated Google Tag Manager container `GTM-WHTKJV76`. GTM is the single loader for GA4, preventing duplicate measurement. Typed data-layer events exclude email addresses, feedback text, and voting identifiers. See [ANALYTICS_SETUP.md](./ANALYTICS_SETUP.md) for the required GTM tags, triggers, variables, verification, and reporting.
 
 ## Security
 
