@@ -21,6 +21,7 @@ npm run dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000).
+Live URL - https://pulseboard-tawny.vercel.app/
 
 ## Quality checks
 
