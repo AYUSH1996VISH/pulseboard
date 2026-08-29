@@ -4,6 +4,7 @@
 
 - Google Tag Manager is the approved analytics loader and loads only after explicit visitor consent.
 - Restrictive Content Security Policy allowlists GTM, Tag Assistant preview resources, and non-advertising Google Analytics endpoints.
+- Cross-origin popup isolation uses `same-origin-allow-popups` so the authorized Tag Assistant preview window can communicate while cross-origin framing remains blocked.
 - Clickjacking, MIME sniffing, unnecessary browser permissions, and cross-origin framing are blocked.
 - Production browser source maps and the framework identification header are disabled.
 - Secrets remain inside a `server-only` data access module.

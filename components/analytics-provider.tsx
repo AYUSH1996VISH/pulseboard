@@ -31,15 +31,10 @@ export function AnalyticsProvider({ gtmId }: { gtmId: string }) {
   function updateConsent(nextConsent: "granted" | "denied") {
     window.localStorage.setItem(ANALYTICS_CONSENT_KEY, nextConsent);
     window.dataLayer = [];
-
-    if (nextConsent === "denied") {
-      // A reload guarantees that a previously loaded GTM container is removed
-      // when a visitor withdraws analytics consent.
-      window.location.reload();
-      return;
-    }
-
-    setConsent(nextConsent);
+    // Reload so an allowed container initializes during page startup (required
+    // for reliable Tag Assistant preview), or so a withdrawn container is
+    // removed completely. The current URL, including gtm_debug, is preserved.
+    window.location.reload();
   }
 
   return (

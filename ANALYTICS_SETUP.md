@@ -5,7 +5,7 @@ PulseBoard loads Google Tag Manager container `GTM-WHTKJV76` through the officia
 ## Privacy and security behavior
 
 - GTM does not load until a visitor selects **Allow analytics**.
-- Declining or withdrawing consent reloads the page without GTM.
+- Allowing, declining, or withdrawing consent reloads the current page so GTM is either initialized at page startup or removed completely. Preview query parameters are preserved.
 - Visitors can reopen **Privacy choices** from the footer.
 - Events before consent are not stored or transmitted.
 - Email addresses, request descriptions, and local voting identifiers are never placed in the data layer.
@@ -66,7 +66,7 @@ Each trigger uses its exact event name and fires on **All Custom Events**. Each 
 
 1. In GTM, click **Preview** and connect `https://pulseboard-tawny.vercel.app/`.
 2. Before consent, confirm `gtm.js` is not requested.
-3. Select **Allow analytics** and confirm container `GTM-WHTKJV76` connects.
+3. Select **Allow analytics**. PulseBoard reloads automatically and container `GTM-WHTKJV76` should connect.
 4. Test a vote, subscription, request submission, product view, roadmap filter, and homepage CTA.
 5. Confirm each event appears once in Tag Assistant and GA4 DebugView/Realtime.
 6. Confirm no event parameter contains an email address or feedback text.
